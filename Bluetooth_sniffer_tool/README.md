@@ -16,15 +16,19 @@
     </a>
 </div>
 ## Objectives
-This is an example of a simple Qt application for Windows 10 which is capable of monitoring nearby Bluetooth devices. The application is also able to monitor nearby traffic and log the content to a file.  
+This is an example of a simple Qt application for Windows 10 which is capable of monitoring nearby Bluetooth devices as well as logging the traffic.
 
-I am creating this application in order to practice the following things:<br>
-- Application development with Qt 5.10+
-- C++ development with focus on object oriented programming
+I am creating this application in order to practice the following topics:<br>
+- Graphical user interfaces (GUI) design with Qt 5.10+
+- C++ development with focus on object oriented programming (OOP)
 - Multithreaded applications
-- Bluetooth communication
+- Bluetooth protocol and communication
 
 ## Introduction
+This section covers basic content about the Bluetooth protocol as well as all needed information in order to develop the GUI.
+
+
+## Architecture
 
 
 
