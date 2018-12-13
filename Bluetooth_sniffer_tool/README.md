@@ -25,10 +25,23 @@ I am creating this application in order to practice the following topics:<br>
 - Bluetooth protocol and communication
 
 ## Introduction
-This section covers basic content about the Bluetooth protocol as well as all needed information in order to develop the GUI.
+This section covers basic content about the Bluetooth protocol in general, the usage of the [Windows Sockets 2.2](https://docs.microsoft.com/en-us/windows/desktop/bluetooth/bluetooth-start-page) API from Windows, in particular for Bluetooth devices. Windows sockets are used in order to establish Bluetooth connections to devices and to get service information's.
+
+### The Bluetooth Protocol
+Create quick summary of [An Introduction to Bluetooth Programming](https://people.csail.mit.edu/albert/bluez-intro/). The introduction provides all necessary information about the Bluetooth protocol.
+
+### Windows Sockets 2
+Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-start-page-2). This should explain the background of Windows sockets and how to utilize them.
+
+### Windows Sockets for Bluetooth Devices
+Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-start-page-2). Explanation about:
+- How to initialize the WSA service
+- How to scann for devices
+- How to connect
+- How to properly terminate the connection
 
 
-## Architecture
+## Architecture of the final Application
 
 
 
