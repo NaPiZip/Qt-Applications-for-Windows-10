@@ -15,6 +15,7 @@
         <img src="https://img.shields.io/badge/MS%20Visual%20C%2B%2B-14.0%20(amd64__x86)-blue.svg"/>
     </a>
 </div>
+
 ## Objectives
 This is an example of a simple Qt application for Windows 10 which is capable of monitoring nearby Bluetooth devices as well as logging the traffic.
 
@@ -30,8 +31,47 @@ This section covers basic content about the Bluetooth protocol in general, the u
 ### The Bluetooth Protocol
 Create quick summary of [An Introduction to Bluetooth Programming](https://people.csail.mit.edu/albert/bluez-intro/). The introduction provides all necessary information about the Bluetooth protocol.
 
+
 ### Windows Sockets 2
-Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-start-page-2). This should explain the background of Windows sockets and how to utilize them.
+[Winsock 2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-2-architecture-2) defines a standard service provider interface (SPI) between the application programming interface (API), with its functions exported from WS2_32.dll and the protocol stacks. Consequently, Winsock support is not limited to TCP/IP protocol stacks as is the case for Windows Sockets 1.1.
+
+<image src="https://docs.microsoft.com/en-us/windows/desktop/WinSock/images/ovrvw2-1.png"/><br>
+
+There are two types of socket applications, server and client. The server is waiting and listening for incoming requests issued by the client, in order to perform the requested action. The client on the other side, is the initiator of a request, he is inquiring some kind of information / asking to perform a particular action.
+
+**What is a socket?**<br>
+Winsock function usually operate on sockets. A socket is also know as a handle to a connection. In order to create a connection a receiver socket must be created. Two common types of sockets exist:
+1.  Streaming socket a.k.a SOCK_STREAM.<br>
+    Reliable connection often used for continuous streams of data. The used protocol is [TCP](https://en.wikipedia.org/wiki/Transmission_Control_Protocol)
+2.  Datagram socket a.k.a SOCK_DGRAM.<br>
+    Connectionless data transfer without send and recive handshake. The used protocol is [UDP](https://en.wikipedia.org/wiki/User_Datagram_Protocol).
+
+**What is binding a socket?**<br>
+Binding is the process of associating an IP address and a port number to a socket. In order to establish a connect between a client and a server, the client as well as the server need both need to have a bounded socket in order to build up a connection.
+
+**What is a connection?**<br>
+A connection is a data link between two sockets. The client initiates the connection, where as the server is listening on a defined socket. It is not explicitly needed to create a client socket before connecting to the server, since the Winsock connect function is able to bind a socket before establishing a connection. For mor details see [madwizard](http://www.madwizard.org/programming/tutorials/netcpp/3).
+
+**Server & client**<br>
+The following steps describe the procedure to create a server and a client application using the Winsock 2:
+
+Server
+1.  Initialize Winsock.
+2.  Create a socket.
+3.  Bind the socket.
+4.  Listen on the socket for a client.
+5.  Accept a connection from a client.
+6.  Receive and send data.
+7.  Disconnect.
+
+Client
+1.  Initialize Winsock.
+2.  Create a socket.
+3.  Connect to the server.
+4.  Send and receive data.
+5.  Disconnect.
+
+Sample code for a Server as well as a client connection can be found [here](https://docs.microsoft.com/en-us/windows/desktop/WinSock/finished-server-and-client-code)
 
 ### Windows Sockets for Bluetooth Devices
 Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-start-page-2). Explanation about:
