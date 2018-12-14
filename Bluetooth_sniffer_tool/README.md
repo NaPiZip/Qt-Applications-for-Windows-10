@@ -71,7 +71,7 @@ Client
 4.  Send and receive data.
 5.  Disconnect.
 
-Sample code for a Server as well as a client connection can be found [here](https://docs.microsoft.com/en-us/windows/desktop/WinSock/finished-server-and-client-code)
+Sample code for a Server as well as a client connection can be found [here](https://docs.microsoft.com/en-us/windows/desktop/WinSock/finished-server-and-client-code).
 
 ### Windows Sockets for Bluetooth Devices
 Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-start-page-2). Explanation about:
