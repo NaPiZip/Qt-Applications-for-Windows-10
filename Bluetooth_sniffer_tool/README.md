@@ -31,7 +31,8 @@ This section covers basic content about the Bluetooth protocol, the usage of the
 ### The Bluetooth Protocol
 [Bluetooth](https://en.wikipedia.org/wiki/Bluetooth) is defined as a layer protocol architecture consisting of core protocols, cable replacement protocols, telephony control protocols, and adopted protocols. Mandatory protocols for all Bluetooth stacks are LMP, L2CAP and SDP. In addition, devices that communicate with Bluetooth almost universally can use these protocols: HCI and RFCOMM. The following image shows the Bluetooth layer architecture:
 
-<image src="https://raw.githubusercontent.com/NaPiZip/Qt-Applications-for-Windows-10/master/Bluetooth_sniffer_tool/images/bluetooth_stack.JPG" class="center"/>
+<p align="center">
+<image src="https://raw.githubusercontent.com/NaPiZip/Qt-Applications-for-Windows-10/master/Bluetooth_sniffer_tool/images/bluetooth_stack.JPG"/></p>
 
 The Bluetooth system consists of many existing protocols that are directly used or have been adapted to the specific use of the Bluetooth system. Protocols are often divided into groups that are used for different levels of communication (a protocol stack). Lower level protocols (such as protocols that are used to manage a radio link between specific points) are only used to create, manage, and disconnect transmission between specific points. Mid-level protocols (such as transmission control protocols) are used to create, manage, and disconnect a logical connection between endpoints that may have multiple link connections between them. High level protocols (application layer protocols) are used to launch, control, and close end-user applications. Here is a description of the most important elements, a full list can be found [here](http://althos.com/tutorial/Bluetooth-tutorial-protocol-layers.html):
 
@@ -64,7 +65,8 @@ Bluetooth profiles are particular implementations, processes, and to definitions
 ### Windows Sockets 2
 [Winsock 2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-2-architecture-2) defines a standard service provider interface (SPI) between the application programming interface (API), with its functions exported from WS2_32.dll and the protocol stacks. Consequently, Winsock support is not limited to TCP/IP protocol stacks as is the case for Windows Sockets 1.1.
 
-<image src="https://raw.githubusercontent.com/NaPiZip/Qt-Applications-for-Windows-10/master/Bluetooth_sniffer_tool/images/winsocket_overview.png" class="center"/>
+<p align="center">
+<image src="https://raw.githubusercontent.com/NaPiZip/Qt-Applications-for-Windows-10/master/Bluetooth_sniffer_tool/images/winsocket_overview.png"/></p>
 
 There are two types of socket applications, server and client. The server is waiting and listening for incoming requests issued by the client, in order to perform the requested action. The client on the other hand, is the initiator of a request, he is inquiring some kind of information / asking to perform a particular action.
 
