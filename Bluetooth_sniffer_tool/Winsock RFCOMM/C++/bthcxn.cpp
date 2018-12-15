@@ -54,6 +54,8 @@ ULONG RunServerMode(_In_ int iMaxCxnCycles = 1);
 void  ShowCmdLineHelp(void);
 ULONG ParseCmdLine(_In_ int argc, _In_reads_(argc) wchar_t * argv[]);
 
+void TestFunction(void);
+BOOL FindingBtDevices();
 
 
 
@@ -62,6 +64,7 @@ int _cdecl wmain(_In_ int argc, _In_reads_(argc)wchar_t *argv[])
     ULONG       ulRetCode = CXN_SUCCESS;
     WSADATA     WSAData = {0};
     SOCKADDR_BTH RemoteBthAddr = {0};
+
 
     //
     // Parse the command line
@@ -130,11 +133,62 @@ int _cdecl wmain(_In_ int argc, _In_reads_(argc)wchar_t *argv[])
             //
             // No remote name/address specified.  Run the application in server mode
             //
-            ulRetCode = RunServerMode(g_ulMaxCxnCycles);
+
+            //ulRetCode = RunServerMode(g_ulMaxCxnCycles);
+
+			//FindingBtDevices();
+			TestFunction();
+			WSACleanup();
         }
     }
 
     return(int)ulRetCode;
+}
+void TestFunction(void)
+{
+	WSAQUERYSET wsaq{0};
+	HANDLE hLookup;
+	LPWSAQUERYSET pwsaResults;	
+	char buffer[4096];
+	DWORD swSize = sizeof(buffer);
+	int nDevicesFound = 1;
+	CSADDR_INFO addrInfo;
+	SOCKADDR_BTH* btSock;
+
+	wsaq.dwNameSpace = NS_BTH;
+	wsaq.dwSize = sizeof(WSAQUERYSET);
+	wsaq.lpcsaBuffer = NULL;
+
+	if (WSALookupServiceBegin(&wsaq, LUP_CONTAINERS, &hLookup) == SOCKET_ERROR)
+	{
+		wprintf(L"Shit no success!\n");
+	}
+	else
+		wprintf(L"Yeah working\n\n");
+
+	ZeroMemory(buffer, sizeof(buffer));
+	pwsaResults = (LPWSAQUERYSET)buffer;
+
+	pwsaResults->dwNameSpace = NS_BTH;
+	pwsaResults->dwSize = sizeof(WSAQUERYSET);
+	pwsaResults->lpBlob = NULL;
+
+	while (WSALookupServiceNext(hLookup, LUP_RETURN_ADDR| LUP_RETURN_NAME, &swSize, pwsaResults) == NO_ERROR)
+	{
+
+		wprintf(L"Device #:%d\n", nDevicesFound);
+		wprintf(L"Device name:%s\n", pwsaResults->lpszServiceInstanceName);
+		wprintf(L"Device connected: %d\n",		(pwsaResults->dwOutputFlags & BTHNS_RESULT_DEVICE_CONNECTED));
+		wprintf(L"Device remembered: %d\n",		(pwsaResults->dwOutputFlags & BTHNS_RESULT_DEVICE_REMEMBERED)>0);
+		wprintf(L"Device authenticated: %d\n",	(pwsaResults->dwOutputFlags & BTHNS_RESULT_DEVICE_AUTHENTICATED)>0);
+	
+		btSock = (SOCKADDR_BTH*)(&pwsaResults->lpcsaBuffer->RemoteAddr);
+		wprintf(L"Local Bluetooth device is %04x%08x, server channel = %d\n",
+			GET_NAP(btSock->btAddr), GET_SAP(btSock->btAddr), btSock->port);
+		nDevicesFound++;	
+
+	}
+	WSALookupServiceEnd(hLookup);
 }
 
 
