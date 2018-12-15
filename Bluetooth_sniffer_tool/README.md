@@ -26,16 +26,45 @@ I am creating this application in order to practice the following topics:<br>
 - Bluetooth protocol and communication
 
 ## Introduction
-This section covers basic content about the Bluetooth protocol in general, the usage of the [Windows Sockets 2.2](https://docs.microsoft.com/en-us/windows/desktop/bluetooth/bluetooth-start-page) API from Windows, in particular for Bluetooth devices. Windows sockets are used in order to establish Bluetooth connections to devices and to get service information's.
+This section covers basic content about the Bluetooth protocol, the usage of the [Windows Sockets 2.2](https://docs.microsoft.com/en-us/windows/desktop/bluetooth/bluetooth-start-page) API, in particular for Bluetooth devices. The Windows sockets API is used in order to establish a Bluetooth connection, as wall as to obtain device service information on a Windows platform.
 
 ### The Bluetooth Protocol
-Create quick summary of [An Introduction to Bluetooth Programming](https://people.csail.mit.edu/albert/bluez-intro/). The introduction provides all necessary information about the Bluetooth protocol.
+[Bluetooth](https://en.wikipedia.org/wiki/Bluetooth) is defined as a layer protocol architecture consisting of core protocols, cable replacement protocols, telephony control protocols, and adopted protocols. Mandatory protocols for all Bluetooth stacks are LMP, L2CAP and SDP. In addition, devices that communicate with Bluetooth almost universally can use these protocols: HCI and RFCOMM. The following image shows the Bluetooth layer architecture:
+
 <image src="https://raw.githubusercontent.com/NaPiZip/Qt-Applications-for-Windows-10/master/Bluetooth_sniffer_tool/images/bluetooth_stack.JPG" class="center"/>
+
+The Bluetooth system consists of many existing protocols that are directly used or have been adapted to the specific use of the Bluetooth system. Protocols are often divided into groups that are used for different levels of communication (a protocol stack). Lower level protocols (such as protocols that are used to manage a radio link between specific points) are only used to create, manage, and disconnect transmission between specific points. Mid-level protocols (such as transmission control protocols) are used to create, manage, and disconnect a logical connection between endpoints that may have multiple link connections between them. High level protocols (application layer protocols) are used to launch, control, and close end-user applications. Here is a description of the most important elements, a full list can be found [here](http://althos.com/tutorial/Bluetooth-tutorial-protocol-layers.html):
+
+**Host controller interface (HCI)**<br>
+Provides the Bluetooth stack with access to a Bluetooth controller. An interface for Bluetooth hardware that is responsible for controller management, link establishment, and maintenance.
+Has direct access to the L2CAP layer. Communicates with a Bluetooth controller through the HCI transport layer.
+
+**Logical link control and adaption protocol (L2CAP)**<br>
+Communicates directly with the HCI. Converts data from high-level layers into a format that is supported by lower-level layers of a Bluetooth controller. Provides the following services:
+- Packet SAR (Segmentation and Reassembly), which converts packets from high-level layers into packets supported by the Baseband layer.
+- Protocol multiplexing.
+- Group abstraction, which maps groups of addresses from high-level layers to piconets, which are   supported by the Baseband layer.
+
+**Radio Frequency Communications (RFCOMM)**<br>
+RFComm is a set of commands and process that are used to emulate the operation of a serial communication port. It is capable of simulating the software and hardware (wire voltage level sensing) operations of RS-232 (EIA/TIA-232-E) serial ports and is based on ETSI TS 07.10.
+
+**Service Discovery Protocol (SDP)**<br>
+Manages the discovery and publishing of supported Bluetooth services and parameters between devices. Used to discover and advertise Bluetooth services, and to verify the compatibility of those services. Bound to the Logical Link Control and Adaption Protocol (L2CAP) layer.
+
+**Bluetooth Network Encapsulation Protocol (BNEP)**<br>
+Encapsulates network packets into a standard format so they can be transmitted over the L2CAP layer. The Personal Area Network (PAN) profile uses BNEP to provide networking capabilities over a Bluetooth connection.
+
+**Transport Driver Interface Layer (TDI)**<br>
+An adaption layer for Winsock-based APIs. It is used by Winsock to communicate with the transport stack. This layer enables Winsock APIs to access the callback mechanism that is built into the Bluetooth stack.
+
+**Profiles**<br>
+Bluetooth profiles are particular implementations, processes, and to definitions of the required operations and protocols that allow Bluetooth provide a specific service or application and they help to ensure the interoperability between Bluetooth devices. Profiles define the required protocols and other supporting profiles (such as how to obtain general access to other Bluetooth devices) that are required to provide types of specific services or features to the user. The conformance to profiles helps to ensure reliable operation of Bluetooth devices regardless of who manufactured the device or which version of the product is used.
+
 
 ### Windows Sockets 2
 [Winsock 2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-2-architecture-2) defines a standard service provider interface (SPI) between the application programming interface (API), with its functions exported from WS2_32.dll and the protocol stacks. Consequently, Winsock support is not limited to TCP/IP protocol stacks as is the case for Windows Sockets 1.1.
 
-<image src="https://raw.githubusercontent.com/NaPiZip/Qt-Applications-for-Windows-10/master/Bluetooth_sniffer_tool/images/winsocket_overview.png" class="center"/><br>
+<image src="https://raw.githubusercontent.com/NaPiZip/Qt-Applications-for-Windows-10/master/Bluetooth_sniffer_tool/images/winsocket_overview.png" class="center"/>
 
 There are two types of socket applications, server and client. The server is waiting and listening for incoming requests issued by the client, in order to perform the requested action. The client on the other hand, is the initiator of a request, he is inquiring some kind of information / asking to perform a particular action.
 
