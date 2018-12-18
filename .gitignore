@@ -1,3 +1,7 @@
 build*
 html*
 Debug*
+.vs*
+*.db
+*.filters
+*opendb
