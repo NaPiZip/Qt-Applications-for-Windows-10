@@ -142,6 +142,7 @@ void DiscoverDevices(void)
 		{
 			wprintf(L"Device name: %s\n", btDeviceInfo.szName);
 		}
+		
 		BluetoothFindDeviceClose(hBtDevice);
 	}
 	else
@@ -191,9 +192,72 @@ void DiscoverRadio(void)
 		{
 			wprintf(L"Error finding first device %d\n", GetLastError());
 		}
+		wprintf(L"Enabling discovery, status: %d\n", BluetoothEnableDiscovery(hFirstRadio, TRUE));
+		wprintf(L"Enabling connections, status: %d\n", BluetoothEnableIncomingConnections(hFirstRadio, TRUE));
 
 		BluetoothFindRadioClose(hFindRadio);
 		CloseHandle(hFirstRadio);
 		wprintf(L"\n");
 	}
+}
+
+
+void test(void)
+{
+	
+	DWORD qs_len = sizeof(WSAQUERYSET);
+	LPWSAQUERYSET qs = (LPWSAQUERYSET)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, qs_len);
+	
+	ZeroMemory(qs, qs_len);
+	qs->dwSize = qs_len;
+	qs->dwNameSpace = NS_BTH;
+
+	qs->lpServiceClassId = const_cast<GUID*>(&GUID_BLUETOOTH_RADIO_IN_RANGE);
+
+
+
+	DWORD flags = LUP_CONTAINERS;
+	flags |= LUP_FLUSHCACHE | LUP_RETURN_NAME | LUP_RETURN_ADDR;
+	HANDLE h{};
+
+	if (SOCKET_ERROR == WSALookupServiceBegin(qs, flags, &h))
+	{
+		wprintf(L"Error %d\n", WSAGetLastError());
+		if (!qs)
+			HeapFree(GetProcessHeap(), 0, qs);
+		return;
+	}
+
+	bool done = FALSE;
+
+	while(!done)
+	{
+		if (NO_ERROR == WSALookupServiceNext(h, flags, &qs_len, qs))
+		{
+			WCHAR buf[40]{};
+			BTH_ADDR result = ((SOCKADDR_BTH*)qs->lpcsaBuffer->RemoteAddr.lpSockaddr)->btAddr;
+			DWORD bufsize = sizeof(buf);
+
+			WSAAddressToString(qs->lpcsaBuffer->RemoteAddr.lpSockaddr,
+				sizeof(SOCKADDR_BTH), NULL, buf, &bufsize);
+			wprintf(L"found: %s - %s \n", buf, qs->lpszServiceInstanceName);
+		}
+		else
+		{
+			int error = WSAGetLastError();
+
+			if (error == WSA_E_NO_MORE)
+			{
+				done = true;
+			}
+			else
+				break;
+		}
+	}
+
+	
+	if (!qs)
+		HeapFree(GetProcessHeap(), 0, qs);
+	WSACleanup();
+
 }

@@ -133,10 +133,11 @@ int _cdecl wmain(_In_ int argc, _In_reads_(argc)wchar_t *argv[])
             // No remote name/address specified.  Run the application in server mode
             //
 
-            //ulRetCode = RunServerMode(g_ulMaxCxnCycles);
-			WSALookupAvailableDevices();
+            //ulRetCode = RunServerMode(g_ulMaxCxnCycles);			
 			DiscoverRadio();
-			DiscoverDevices();			
+			test();
+			WSALookupAvailableDevices();
+			DiscoverDevices();				
 			WSACleanup();
         }
     }

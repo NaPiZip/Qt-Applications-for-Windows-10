@@ -19,4 +19,5 @@ void WSALookupAvailableDevices(void);
 void DiscoverDevices(void);
 void DiscoverRadio(void);
 
+void test(void);
 #endif // !TESTENV_HEADER
