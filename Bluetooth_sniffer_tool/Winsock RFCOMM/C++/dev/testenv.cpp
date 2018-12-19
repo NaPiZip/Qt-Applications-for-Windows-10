@@ -34,7 +34,7 @@
 * \param[out]	None
 * \return		None
 * \sa For detail see: https://docs.microsoft.com/en-us/windows/desktop/Bluetooth/bluetooth-and-wsalookupservicebegin-for-device-inquiry
-* \note The function is not printing all available devices only the ones the local machine is paird with, no clue why.
+* \note The function is not printing all available devices only the ones which are in the state discoverable!
 * \warning		None
 */
 void WSALookupAvailableDevices(void)
@@ -50,7 +50,7 @@ void WSALookupAvailableDevices(void)
 	char	buffer[4096] = {};
 	int		nDevicesFound = 1;
 	DWORD	swSize = sizeof(buffer);
-	DWORD	flags = LUP_RETURN_ADDR | LUP_RETURN_NAME | LUP_RES_SERVICE | LUP_CONTAINERS | LUP_RETURN_BLOB | LUP_RETURN_TYPE;
+	DWORD	flags = LUP_RETURN_ADDR | LUP_RETURN_NAME | LUP_CONTAINERS | LUP_RETURN_TYPE | LUP_FLUSHCACHE;
 	
 	/*Preparing the query set*/
 	wsaQuery.dwNameSpace = NS_BTH;
@@ -72,6 +72,12 @@ void WSALookupAvailableDevices(void)
 	pwsaResults = (LPWSAQUERYSET)buffer;
 	pwsaResults->dwNameSpace = NS_BTH;
 	pwsaResults->dwSize = sizeof(WSAQUERYSET);
+	BTH_QUERY_DEVICE qDev{};
+	qDev.length = 1;
+	BLOB blb;
+	blb.cbSize = sizeof(BTH_QUERY_DEVICE);
+	blb.pBlobData = reinterpret_cast<PBYTE>(&qDev);
+	pwsaResults->lpBlob = &blb;
 
 	while (WSALookupServiceNext(hLookup, flags, &swSize, pwsaResults) == NO_ERROR)
 	{
