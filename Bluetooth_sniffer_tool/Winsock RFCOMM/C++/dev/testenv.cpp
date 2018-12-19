@@ -202,18 +202,65 @@ void DiscoverRadio(void)
 }
 
 
-void test(void)
+/*!
+* \brief Playground
+*
+* This function is just a placholder in order to test WINSOCK API functions.
+*
+* \param[in]	None
+* \param[out]	None
+* \return		None
+* \sa For detail see: 
+* \note
+* \warning		None
+*/
+void Playground(void)
 {
+	SOCKET localSocket{};
+	SOCKADDR_BTH localBtSocketAddress{};
 	
+	localSocket = socket(AF_BTH, SOCK_STREAM, BTHPROTO_RFCOMM);
+	if (localSocket == SOCKET_ERROR)
+	{
+		wprintf(L"Error %d\n", WSAGetLastError());
+		return;
+	}
+	
+	
+	hostent* localHost;
+	localHost = gethostbyname("");
+	
+
+	localBtSocketAddress.addressFamily = AF_BTH;
+	localBtSocketAddress.btAddr = 0;
+	localBtSocketAddress.port = BT_PORT_ANY;
+
+	if (SOCKET_ERROR == bind(localSocket, reinterpret_cast<const sockaddr*>(&localBtSocketAddress), sizeof(localBtSocketAddress)))
+	{
+		wprintf(L"Error %d\n", WSAGetLastError());
+		return;
+	}
+
+	
+
+	CSADDR_INFO sockInfo{};
+
+	sockInfo.iProtocol = BTHPROTO_RFCOMM;
+	sockInfo.iSocketType = SOCK_STREAM;
+	sockInfo.LocalAddr.lpSockaddr = (LPSOCKADDR)&localBtSocketAddress;
+	sockInfo.LocalAddr.iSockaddrLength = sizeof(localBtSocketAddress);
+	sockInfo.RemoteAddr.lpSockaddr = (LPSOCKADDR)&localBtSocketAddress;
+	sockInfo.RemoteAddr.iSockaddrLength = sizeof(localBtSocketAddress);
+
+
 	DWORD qs_len = sizeof(WSAQUERYSET);
-	LPWSAQUERYSET qs = (LPWSAQUERYSET)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, qs_len);
-	
+	LPWSAQUERYSET qs = (LPWSAQUERYSET)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, qs_len);	
 	ZeroMemory(qs, qs_len);
 	qs->dwSize = qs_len;
 	qs->dwNameSpace = NS_BTH;
 
 	qs->lpServiceClassId = const_cast<GUID*>(&GUID_BLUETOOTH_RADIO_IN_RANGE);
-
+	qs->lpcsaBuffer = &sockInfo;
 
 
 	DWORD flags = LUP_CONTAINERS;
@@ -223,13 +270,12 @@ void test(void)
 	if (SOCKET_ERROR == WSALookupServiceBegin(qs, flags, &h))
 	{
 		wprintf(L"Error %d\n", WSAGetLastError());
-		if (!qs)
+		if (qs)
 			HeapFree(GetProcessHeap(), 0, qs);
 		return;
 	}
 
 	bool done = FALSE;
-
 	while(!done)
 	{
 		if (NO_ERROR == WSALookupServiceNext(h, flags, &qs_len, qs))
@@ -256,7 +302,7 @@ void test(void)
 	}
 
 	
-	if (!qs)
+	if (qs)
 		HeapFree(GetProcessHeap(), 0, qs);
 	WSACleanup();
 

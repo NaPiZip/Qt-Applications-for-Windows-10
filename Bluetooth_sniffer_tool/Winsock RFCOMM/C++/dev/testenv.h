@@ -19,5 +19,5 @@ void WSALookupAvailableDevices(void);
 void DiscoverDevices(void);
 void DiscoverRadio(void);
 
-void test(void);
+void Playground(void);
 #endif // !TESTENV_HEADER
