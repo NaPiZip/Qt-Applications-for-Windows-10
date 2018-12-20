@@ -135,9 +135,9 @@ int _cdecl wmain(_In_ int argc, _In_reads_(argc)wchar_t *argv[])
 
             //ulRetCode = RunServerMode(g_ulMaxCxnCycles);			
 			DiscoverRadio();
-			//Playground();
 			WSALookupAvailableDevices();
-			DiscoverDevices();				
+			DiscoverDevices();	
+			Playground();
 			WSACleanup();
         }
     }

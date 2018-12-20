@@ -247,17 +247,6 @@ void Playground(void)
 		return;
 	}
 
-	
-
-	CSADDR_INFO sockInfo{};
-
-	sockInfo.iProtocol = BTHPROTO_RFCOMM;
-	sockInfo.iSocketType = SOCK_STREAM;
-	sockInfo.LocalAddr.lpSockaddr = (LPSOCKADDR)&localBtSocketAddress;
-	sockInfo.LocalAddr.iSockaddrLength = sizeof(localBtSocketAddress);
-	sockInfo.RemoteAddr.lpSockaddr = (LPSOCKADDR)&localBtSocketAddress;
-	sockInfo.RemoteAddr.iSockaddrLength = sizeof(localBtSocketAddress);
-
 
 	DWORD qs_len = sizeof(WSAQUERYSET);
 	LPWSAQUERYSET qs = (LPWSAQUERYSET)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, qs_len);	
@@ -265,9 +254,7 @@ void Playground(void)
 	qs->dwSize = qs_len;
 	qs->dwNameSpace = NS_BTH;
 
-	qs->lpServiceClassId = const_cast<GUID*>(&GUID_BLUETOOTH_RADIO_IN_RANGE);
-	qs->lpcsaBuffer = &sockInfo;
-
+	
 
 	DWORD flags = LUP_CONTAINERS;
 	flags |= LUP_FLUSHCACHE | LUP_RETURN_NAME | LUP_RETURN_ADDR;
