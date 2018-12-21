@@ -15,9 +15,12 @@
 #ifndef TESTENV_HEADER
 #define TESTENV_HEADER
 
+#include <winsock2.h>
+
 void WSALookupAvailableDevices(void);
 void DiscoverDevices(void);
 void DiscoverRadio(void);
+bool GetActiveConnectionAddressInfo(const PCSADDR_INFO pcsAddrInfo);
 
 void Playground(void);
 #endif // !TESTENV_HEADER

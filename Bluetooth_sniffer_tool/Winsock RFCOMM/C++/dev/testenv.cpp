@@ -189,7 +189,7 @@ void DiscoverRadio(void)
 		wprintf(L"Bluetoothapi radio search started!\n");
 		wprintf(L"*********************\n\n");
 
-		if (BluetoothGetRadioInfo(hFirstRadio, &btRadioInfo) == ERROR_SUCCESS)
+		if (BluetoothGetRadioInfo(hFirstRadio, &btRadioInfo) == NO_ERROR)
 		{
 			wprintf(L"Radio name: %s\n", btRadioInfo.szName);
 			wprintf(L"Is this device discoverable? %d\n", BluetoothIsDiscoverable(hFirstRadio));
@@ -207,7 +207,72 @@ void DiscoverRadio(void)
 	}
 }
 
+/*!
+* \brief GetActiveConnectionAddressInfo
+*
+* This function returns CSADDR_INFO of a currently connecte devices.
+*
+* \param[in]	None
+* \param[out]	None
+* \param[in/out] pcsAddrInfo: Pointer for return structure
+* \return		true if function did find a connected device otherwise false
+* \sa For detail see:
+* \note			Assumse WSAStartup was called before!
+* \warning		None
+*/
+bool GetActiveConnectionAddressInfo(const PCSADDR_INFO pcsAddrInfo)
+{
+	WSAQUERYSET			wsaq{};
+	LPWSAQUERYSET		pwsaResults{};
+	HANDLE				hLookup{};
+	WCHAR				buffer[1000]{};
+	BTH_QUERY_DEVICE	qDev{};
+	BLOB				blb{};
 
+	DWORD size = sizeof(buffer);
+	DWORD flags = LUP_RETURN_ADDR | LUP_CONTAINERS | LUP_FLUSHCACHE;	
+	bool success = FALSE;
+	int iResult = NO_ERROR;
+
+	/*Preparing query set*/
+	wsaq.dwNameSpace = NS_BTH;
+	wsaq.dwSize = sizeof(WSAQUERYSET);	
+	
+	if (SOCKET_ERROR == WSALookupServiceBegin(&wsaq, flags, &hLookup))
+	{
+		return success;
+	}
+	
+	qDev.length = 1;
+	blb.cbSize = sizeof(BTH_QUERY_DEVICE);
+	blb.pBlobData = reinterpret_cast<PBYTE>(&qDev);
+
+	/*Preparing the queryset return buffer*/
+	pwsaResults = (LPWSAQUERYSET)buffer;
+	pwsaResults->dwNameSpace = NS_BTH;
+	pwsaResults->dwSize = sizeof(WSAQUERYSET);
+	pwsaResults->lpBlob = &blb;
+
+	
+	do 
+	{
+		iResult = WSALookupServiceNext(hLookup, flags, &size, pwsaResults);
+
+		if ((iResult == NO_ERROR) && (pwsaResults->dwOutputFlags & BTHNS_RESULT_DEVICE_CONNECTED))
+		{
+			memcpy(pcsAddrInfo, pwsaResults->lpcsaBuffer, sizeof(CSADDR_INFO));
+			success = true;
+		}
+		else if(iResult == SOCKET_ERROR)
+		{
+			wprintf(L"Error reading devices: %d", WSAGetLastError());
+		}
+
+	} while (iResult == NO_ERROR);
+
+	WSALookupServiceEnd(hLookup);
+	return success;
+}
 /*!
 * \brief Playground
 *
@@ -224,6 +289,14 @@ void Playground(void)
 {
 	SOCKET localSocket{};
 	SOCKADDR_BTH localBtSocketAddress{};
+	CSADDR_INFO csAddrInfoConnecion{};
+	
+	if (!GetActiveConnectionAddressInfo(&csAddrInfoConnecion))
+	{
+		wprintf(L"Error: Pleas connect to a Bluetooth device!");
+		return;
+	}
+
 	
 	localSocket = socket(AF_BTH, SOCK_STREAM, BTHPROTO_RFCOMM);
 	if (localSocket == SOCKET_ERROR)
@@ -231,12 +304,7 @@ void Playground(void)
 		wprintf(L"Error %d\n", WSAGetLastError());
 		return;
 	}
-	
-	
-	hostent* localHost;
-	localHost = gethostbyname("");
-	
-
+		
 	localBtSocketAddress.addressFamily = AF_BTH;
 	localBtSocketAddress.btAddr = 0;
 	localBtSocketAddress.port = BT_PORT_ANY;
