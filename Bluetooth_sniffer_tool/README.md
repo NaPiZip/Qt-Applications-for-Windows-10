@@ -107,7 +107,7 @@ Sample code for a server as well as a client connection can be found [here](http
 ### Windows Sockets for Bluetooth Devices
 Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/desktop/WinSock/windows-sockets-start-page-2). Explanation about:
 - How to initialize the WSA service
-- How to scann for devices
+- How to scan for devices
 - How to connect
 - How to properly terminate the connection
 
@@ -115,7 +115,11 @@ Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/d
 ## Architecture of the final Application
 
 
+## Conclusion
+This section should summarize the learned parts, as well as the limitations of the application. One element for example is the fact that WINSOCK 2.2 does not offer monitoring devices which are not in Discoverable state, so just scanning the surrounding for available devices is not possible.
 
+## For the future
+This section should cover elements which could be improved in the future e.g. adding aditional features or changing the current layout ... .
 
 ## Contributing
 
