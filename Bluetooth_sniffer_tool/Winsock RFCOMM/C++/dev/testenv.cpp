@@ -50,7 +50,7 @@ void WSALookupAvailableDevices(void)
 	char	buffer[4096] = {};
 	int		nDevicesFound = 1;
 	DWORD	swSize = sizeof(buffer);
-	DWORD	flags = LUP_RETURN_ADDR | LUP_RETURN_NAME | LUP_CONTAINERS | LUP_RETURN_TYPE | LUP_FLUSHCACHE;
+	DWORD	flags = LUP_RETURN_ADDR | LUP_RETURN_NAME | LUP_CONTAINERS | LUP_RETURN_TYPE | LUP_RES_SERVICE | LUP_FLUSHCACHE;
 	
 	/*Preparing the query set*/
 	wsaQuery.dwNameSpace = NS_BTH;
@@ -290,14 +290,21 @@ void Playground(void)
 	SOCKET localSocket{};
 	SOCKADDR_BTH localBtSocketAddress{};
 	CSADDR_INFO csAddrInfoConnecion{};
+	sockaddr info{};
+	int size = sizeof(info);
 	
 	if (!GetActiveConnectionAddressInfo(&csAddrInfoConnecion))
 	{
 		wprintf(L"Error: Pleas connect to a Bluetooth device!");
 		return;
 	}
+	else
+	{
+		memcpy(&localBtSocketAddress, csAddrInfoConnecion.LocalAddr.lpSockaddr, sizeof(SOCKADDR_BTH));
+	}
 
 	
+
 	localSocket = socket(AF_BTH, SOCK_STREAM, BTHPROTO_RFCOMM);
 	if (localSocket == SOCKET_ERROR)
 	{
@@ -305,11 +312,18 @@ void Playground(void)
 		return;
 	}
 		
+	if (SOCKET_ERROR == getsockname(localSocket, &info, &size))
+	{
+		wprintf(L"Error %d\n", WSAGetLastError());
+	}
+
+	/*
 	localBtSocketAddress.addressFamily = AF_BTH;
 	localBtSocketAddress.btAddr = 0;
 	localBtSocketAddress.port = BT_PORT_ANY;
-
-	if (SOCKET_ERROR == bind(localSocket, reinterpret_cast<const sockaddr*>(&localBtSocketAddress), sizeof(localBtSocketAddress)))
+	*/
+	
+	if (SOCKET_ERROR == bind(localSocket, reinterpret_cast<SOCKADDR*>(&localBtSocketAddress), sizeof(localBtSocketAddress)))
 	{
 		wprintf(L"Error %d\n", WSAGetLastError());
 		return;
