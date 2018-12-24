@@ -112,14 +112,13 @@ Create quick summary of [Winsock 2.2](https://docs.microsoft.com/en-us/windows/d
 - How to properly terminate the connection
 
 
-## Architecture of the final Application
-
-
 ## Conclusion
-This section should summarize the learned parts, as well as the limitations of the application. One element for example is the fact that WINSOCK 2.2 does not offer monitoring devices which are not in Discoverable state, so just scanning the surrounding for available devices is not possible.
+After searching and trying for a while I got some feedback about my objectives for developing a Bluetooth sniffier tool. It turns out that you cannot bind to a existing connection port, since the port only is a RFCOMM channel. There is a different option which means developing a filter driver for the Bluetooth device, which I am not going to explore right now since my main focus is getting more exposure with Qt.
+
+This project gave me a lot of insights about how to develop applications using the win sockets library. I also learned a lot about the Bluetooth Stack and it's different services and protocols and a lot more. 
 
 ## For the future
-This section should cover elements which could be improved in the future e.g. adding aditional features or changing the current layout ... .
+I will revisit this topic in order to explore different possibilities of monitoring Bluetooth traffic, and I am going to start by investigating on how to develop [Windows Driver](https://github.com/Microsoft/Windows-driver-samples).  
 
 ## Contributing
 
