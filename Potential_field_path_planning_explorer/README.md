@@ -17,12 +17,16 @@
 </div>
 
 ## Objectives
-This is an example of a simple Qt application for Windows 10 which is shows the Potential Field Method for path planning which is based on the following [paper](https://www.business-sweden.se/contentassets/fcac981bfd224e609363bc7fc56889f3/discover-autonomous-driving-potential-in-japan.pdf).
+This is an example of a simple Qt application for Windows 10 which is shows the `Potential Field Method for path planning` which is based on the following [paper](https://www.business-sweden.se/contentassets/fcac981bfd224e609363bc7fc56889f3/discover-autonomous-driving-potential-in-japan.pdf).
 
 I am creating this application in order to practice the following topics:<br>
-- Graphical user interfaces (GUI) design with Qt 5.10+
-- Using different chart types for creation of quick visualizations in Qt
-- C++ development with focus on object oriented programming (OOP)
+- Graphical user interfaces (GUI) design with Qt 5.10+.
+- Using different chart types for creation of quick visualizations in Qt.
+- C++ development with focus on object oriented programming (OOP).
+
+## Requirements
+The application should provide an interactive interface for the user to visualize the potential field method for path planning. The application should show a 3D representation of the force field, as well as the potential field of a scenario. A scenario consists of a `Host Vehicle` and up to 20 `Obstacles`. The representation should show the `Host Vehicle` path around the obstacles and towards a `Goal Position`. The user should be able to select between different potential field functions. The user should also be able to add and remove `Obstacles` as well the `Goal Position`.  
+
 
 ## Introduction
 This section covers the basic content of the Potential field method.
