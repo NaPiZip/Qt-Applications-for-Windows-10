@@ -5,3 +5,4 @@ Debug*
 *.db
 *.filters
 *opendb
+*.user
