@@ -31,12 +31,12 @@ The application should provide an interactive interface for the user to visualiz
 ## Introduction
 This section covers the basic content of the Potential field method.
 
-
 ## Conclusions
 Answers to the following questions:
   - What was good?
   - What was bad?
   - What would I change next time?
+
 
 ## Future
 Additional things I would like to improve?
