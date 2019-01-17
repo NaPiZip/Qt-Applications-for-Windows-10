@@ -25,8 +25,22 @@ I am creating this application in order to practice the following topics:<br>
 - C++ development with focus on object oriented programming (OOP).
 
 ## Requirements
-The application should provide an interactive interface for the user to visualize the potential field method for path planning. The application should show a 3D representation of the force field, as well as the potential field of a scenario. A scenario consists of a `Host Vehicle` and up to 20 `Obstacles`. The representation should show the `Host Vehicle` path around the obstacles and towards a `Goal Position`. The user should be able to select between different potential field functions. The user should also be able to add and remove `Obstacles` as well the `Goal Position`.  
+The application should provide an interactive interface for the user to visualize the potential field method for path planning. The application should show a 3D representation of the force field, as well as the potential field of a scenario. A scenario consists of a `Host Vehicle` and up to 20 `Obstacles`. The representation should show the `Host Vehicle` path around the obstacles and towards a `Goal Position`. The user should be able to select different `potential field function`'s for the `Host Vehicle`, the `Goal`, and the `Obstacles`. The user should also be able to add and remove `Obstacles` as well the `Goal Position`.
 
+Optional:
+The user should be able to adjust the parameters of the `potential field function`'s.
+
+## Use Case Diagram
+The following image shows the corresponding use case diagram of the application. The user can visualize the scenario containing of a `Host Vehicle`, a `Goal`, multiple `Obstacles`, and a `Potential field function`. The user can set the position of the `Host Vehicle`, `Obstacle`'s and the `Goal`, in addition he can also add `Obstacles` as well as setting the `potential field function`.  
+
+
+<p align="center">
+<img src="https://github.com/NaPiZip/Qt-Applications-for-Windows-10/blob/master/Potential_field_path_planning_explorer/Resources/Images/UseCaseDiagram.JPG?raw=true" alt="Use case diagram"/></p>
+
+## Class diagram
+
+<p align="center">
+<img src="https://github.com/NaPiZip/Qt-Applications-for-Windows-10/blob/master/Potential_field_path_planning_explorer/Resources/Images/ClassDiagram.JPG?raw=true" alt="Use case diagram"/></p>
 
 ## Introduction
 This section covers the basic content of the Potential field method.
