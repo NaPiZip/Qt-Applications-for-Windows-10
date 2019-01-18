@@ -6,3 +6,4 @@ Debug*
 *.filters
 *opendb
 *.user
+*.json
