@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui datavisualization
+QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets datavisualization
 
 TARGET = Potential_field_path_planning_explorer
 TEMPLATE = app
@@ -31,7 +31,8 @@ SOURCES += \
     030_src/mainwindow.cpp
 
 HEADERS += \
-    020_include/mainwindow.h
+    020_include/mainwindow.h \
+    020_include/graphmodifier.h
 
 FORMS += \
     010_forms/mainwindow.ui
