@@ -29,11 +29,13 @@ QMAKE_CXXFLAGS += -Wall
 
 SOURCES += \
     030_src/main.cpp \
-    030_src/mainwindow.cpp
+    030_src/mainwindow.cpp \
+    030_src/surfacegraph.cpp
 
 HEADERS += \
     020_include/mainwindow.h \
-    020_include/graphmodifier.h
+    030_src/surfacegraph.h \
+    020_include/surfacegraph.h
 
 FORMS += \
     010_forms/mainwindow.ui
