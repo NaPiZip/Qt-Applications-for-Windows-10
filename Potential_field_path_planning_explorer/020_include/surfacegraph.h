@@ -4,13 +4,16 @@
 #include <QObject>
 #include <QtDataVisualization/QSurfaceDataProxy>
 #include <QtDataVisualization/QSurface3DSeries>
+#include <QtDataVisualization/Q3DSurface>
 
 class SurfaceGraph : public QObject
 {
     Q_OBJECT
 public:
-    explicit SurfaceGraph(QObject *parent = nullptr);
+    explicit SurfaceGraph(QtDataVisualization::Q3DSurface *surface);
+    ~SurfaceGraph();
     void fillSqrtSinProxy();
+    void enableHeightMapModel(bool enable);
 
 signals:
 
@@ -24,8 +27,10 @@ private:
     constexpr static int heightMapGridStepX = 6;
     constexpr static int heightMapGridStepZ = 6;
 
+    QtDataVisualization::Q3DSurface *m_graph = nullptr;
     QtDataVisualization::QSurfaceDataProxy *m_sqrtSinProxy = nullptr;
     QtDataVisualization::QSurface3DSeries *m_sqrtSinSeries = nullptr;
+
 };
 
 #endif // SURFACEGRAPH_H

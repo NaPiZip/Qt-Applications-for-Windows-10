@@ -34,7 +34,7 @@ SOURCES += \
 
 HEADERS += \
     020_include/mainwindow.h \
-    030_src/surfacegraph.h \
+    020_include/surfacegraph.h \
     020_include/surfacegraph.h
 
 FORMS += \

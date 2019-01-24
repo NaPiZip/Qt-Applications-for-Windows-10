@@ -2,11 +2,19 @@
 #include <QtMath>
 using namespace QtDataVisualization;
 
-SurfaceGraph::SurfaceGraph(QObject *parent) : QObject(parent),
+SurfaceGraph::SurfaceGraph(QtDataVisualization::Q3DSurface *surface) :
+    m_graph(surface),
     m_sqrtSinProxy{new QSurfaceDataProxy()},
     m_sqrtSinSeries{new QSurface3DSeries(m_sqrtSinProxy)}
 {
+    m_graph->setAxisX(new QValue3DAxis);
+    m_graph->setAxisY(new QValue3DAxis);
+    m_graph->setAxisZ(new QValue3DAxis);
 
+    m_sqrtSinProxy = new QSurfaceDataProxy;
+    m_sqrtSinSeries = new QSurface3DSeries(m_sqrtSinProxy);
+
+    fillSqrtSinProxy();
 }
 
 void SurfaceGraph::fillSqrtSinProxy()
@@ -32,4 +40,30 @@ void SurfaceGraph::fillSqrtSinProxy()
         *dataArray << newRow;
     }
     m_sqrtSinProxy->resetArray(dataArray);
+}
+
+SurfaceGraph::~SurfaceGraph()
+{
+    delete m_graph;
+}
+
+void SurfaceGraph::enableHeightMapModel(bool enable)
+{
+    if(enable)
+    {
+        m_graph->axisX()->setLabelFormat("%.1f N");
+        m_graph->axisY()->setLabelFormat("%.1f E");
+        m_graph->axisX()->setRange(34.0f, 40.0f);
+        m_graph->axisY()->setAutoAdjustRange(true);
+        m_graph->axisZ()->setRange(18.0f, 24.0f);
+
+        m_graph->axisY()->setTitle(QStringLiteral("Height"));
+        m_graph->axisZ()->setTitle(QStringLiteral("Longitude"));
+
+        m_graph->axisX()->setTitle(QStringLiteral("Latitude"));
+        m_graph->axisY()->setTitle(QStringLiteral("Height"));
+        m_graph->axisZ()->setTitle(QStringLiteral("Longitude"));
+
+        m_graph->addSeries(m_sqrtSinSeries);
+      }
 }
