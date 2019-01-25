@@ -34,11 +34,12 @@ int main(int argc, char *argv[])
     QVBoxLayout *vLayout = new QVBoxLayout();
     hLayout->addWidget(container,1);
     hLayout->addLayout(vLayout);
-    vLayout->setAlignment(Qt::AlignTop);    
+    vLayout->setAlignment(Qt::AlignTop);
+
+    window->setWindowTitle(QStringLiteral("Surface Example"));
 
     SurfaceGraph *modifier = new SurfaceGraph(graph);
     modifier->enableHeightMapModel(true);
-    graph->show();
     window->show();
     return app.exec();
 }

@@ -51,6 +51,9 @@ void SurfaceGraph::enableHeightMapModel(bool enable)
 {
     if(enable)
     {
+        m_sqrtSinSeries->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
+        m_sqrtSinSeries->setFlatShadingEnabled(true);
+
         m_graph->axisX()->setLabelFormat("%.1f N");
         m_graph->axisY()->setLabelFormat("%.1f E");
         m_graph->axisX()->setRange(34.0f, 40.0f);
