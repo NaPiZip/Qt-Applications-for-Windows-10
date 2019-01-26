@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     window->setWindowTitle(QStringLiteral("Surface Example"));
 
     SurfaceGraph *modifier = new SurfaceGraph(graph);
-    modifier->enableHeightMapModel(true);
+    modifier->enableModel(true);
     window->show();
     return app.exec();
 }

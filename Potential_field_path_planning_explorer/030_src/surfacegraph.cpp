@@ -1,19 +1,21 @@
 #include "surfacegraph.h"
+#include <QtDebug>
 #include <QtMath>
 using namespace QtDataVisualization;
 
 SurfaceGraph::SurfaceGraph(QtDataVisualization::Q3DSurface *surface) :
-    m_graph(surface),
-    m_sqrtSinProxy{new QSurfaceDataProxy()},
-    m_sqrtSinSeries{new QSurface3DSeries(m_sqrtSinProxy)}
+    m_graph(surface)
 {
     m_graph->setAxisX(new QValue3DAxis);
-    m_graph->setAxisY(new QValue3DAxis);
-    m_graph->setAxisZ(new QValue3DAxis);
+    m_graph->axisX()->setTitleVisible(true);
+    m_graph->setAxisY(new QValue3DAxis);    
+    m_graph->axisY()->setTitleVisible(true);
+    m_graph->setAxisZ(new QValue3DAxis);    
+    m_graph->axisZ()->setTitleVisible(true);
+    m_graph->setFlags( Qt::WindowSystemMenuHint | Qt::WindowSystemMenuHint);
 
-    m_sqrtSinProxy = new QSurfaceDataProxy;
+    m_sqrtSinProxy = new QSurfaceDataProxy();
     m_sqrtSinSeries = new QSurface3DSeries(m_sqrtSinProxy);
-
     fillSqrtSinProxy();
 }
 
@@ -27,7 +29,7 @@ void SurfaceGraph::fillSqrtSinProxy()
 
     for(int i = 0; i < sampleCountZ; i++)
     {
-        QSurfaceDataRow *newRow = new QSurfaceDataRow(sampleCountZ);
+        QSurfaceDataRow *newRow = new QSurfaceDataRow(sampleCountX);
         float z = qMin(sampleMax, (i * stepZ + sampleMin));
         int index = 0;
         for(int j = 0; j < sampleCountX; j++)
@@ -47,25 +49,27 @@ SurfaceGraph::~SurfaceGraph()
     delete m_graph;
 }
 
-void SurfaceGraph::enableHeightMapModel(bool enable)
+void SurfaceGraph::enableModel(bool enable)
 {
     if(enable)
     {
+        qDebug()<< "Number of rows: "  << m_sqrtSinProxy->rowCount()
+                << "Number of cols: "  << m_sqrtSinProxy->columnCount();
+
         m_sqrtSinSeries->setDrawMode(QSurface3DSeries::DrawSurfaceAndWireframe);
         m_sqrtSinSeries->setFlatShadingEnabled(true);
 
-        m_graph->axisX()->setLabelFormat("%.1f N");
-        m_graph->axisY()->setLabelFormat("%.1f E");
-        m_graph->axisX()->setRange(34.0f, 40.0f);
-        m_graph->axisY()->setAutoAdjustRange(true);
-        m_graph->axisZ()->setRange(18.0f, 24.0f);
+        m_graph->axisX()->setLabelFormat("%.2f");
+        m_graph->axisZ()->setLabelFormat("%.2f");
 
-        m_graph->axisY()->setTitle(QStringLiteral("Height"));
-        m_graph->axisZ()->setTitle(QStringLiteral("Longitude"));
+        m_graph->axisX()->setLabelAutoRotation(30);
+        m_graph->axisY()->setLabelAutoRotation(90);
+        m_graph->axisZ()->setLabelAutoRotation(30);
 
-        m_graph->axisX()->setTitle(QStringLiteral("Latitude"));
-        m_graph->axisY()->setTitle(QStringLiteral("Height"));
-        m_graph->axisZ()->setTitle(QStringLiteral("Longitude"));
+        m_graph->axisX()->setTitle(QStringLiteral("X Values"));
+        m_graph->axisY()->setTitle(QStringLiteral("Y Values"));
+        m_graph->axisZ()->setTitle(QStringLiteral("Z Values"));
+        m_graph->setTitle("Sine function");
 
         m_graph->addSeries(m_sqrtSinSeries);
       }

@@ -13,7 +13,7 @@ public:
     explicit SurfaceGraph(QtDataVisualization::Q3DSurface *surface);
     ~SurfaceGraph();
     void fillSqrtSinProxy();
-    void enableHeightMapModel(bool enable);
+    void enableModel(bool enable);
 
 signals:
 
@@ -22,10 +22,10 @@ public slots:
 private:
     constexpr static float sampleMin = -8.0f;
     constexpr static float sampleMax =  8.0f;
-    constexpr static int sampleCountX = 50;
-    constexpr static int sampleCountZ = 50;
     constexpr static int heightMapGridStepX = 6;
     constexpr static int heightMapGridStepZ = 6;
+    constexpr static int sampleCountX = 50;
+    constexpr static int sampleCountZ = 50;
 
     QtDataVisualization::Q3DSurface *m_graph = nullptr;
     QtDataVisualization::QSurfaceDataProxy *m_sqrtSinProxy = nullptr;
