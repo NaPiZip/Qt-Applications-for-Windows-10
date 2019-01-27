@@ -43,9 +43,10 @@ The following image shows the corresponding use case diagram of the application.
 <img src="https://github.com/NaPiZip/Qt-Applications-for-Windows-10/blob/master/Potential_field_path_planning_explorer/Resources/Images/ClassDiagram.JPG?raw=true" alt="Use case diagram"/></p>
 
 ## Introduction
-This section covers the basic content of the Potential field method from the paper
+This section covers the basic content of the Potential field method from the paper.
 
 ## The Graphical User Interface Explained
+This section explains the GUI, and what it displays.
 
 ## Conclusions
 Answers to the following questions:
